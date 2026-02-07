@@ -1,0 +1,30 @@
+<h1><%= title %></h1>
+
+<a href="/users" class="btn">← กลับ</a>
+
+<form action="/users" method="POST" style="margin-top: 20px;">
+    <div class="form-group">
+        <label for="fname">ชื่อ:</label>
+        <input type="text" id="fname" name="fname" required>
+    </div>
+
+    <div class="form-group">
+        <label for="lname">นามสกุล:</label>
+        <input type="text" id="lname" name="lname" required>
+    </div>
+
+    <div class="form-group">
+        <label for="password">รหัสผ่าน:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+
+    <div class="form-group">
+        <label for="role">บทบาท:</label>
+        <select id="role" name="role" required>
+            <option value="User">User</option>
+            <option value="Checker">Checker</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">สร้างผู้ใช้</button>
+</form>

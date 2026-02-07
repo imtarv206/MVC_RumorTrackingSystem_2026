@@ -1,0 +1,47 @@
+<h1><%= title %></h1>
+
+<a href="/rumors/create" class="btn btn-primary">+ สร้างข่าวลือใหม่</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>หัวข้อข่าวลือ</th>
+            <th>แหล่งที่มา</th>
+            <th>วันที่สร้าง</th>
+            <th>คะแนนความน่าเชื่อถือ</th>
+            <th>สถานะ</th>
+            <th>จำนวนรายงาน</th>
+            <th>การกระทำ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (rumors.length === 0) { %>
+            <tr>
+                <td colspan="8" style="text-align: center;">ไม่มีข่าวลือ</td>
+            </tr>
+        <% } else { %>
+            <% rumors.forEach(rumor => { %>
+                <tr>
+                    <td><%= rumor.Rumour_ID %></td>
+                    <td><%= rumor.Rumour_Title %></td>
+                    <td><%= rumor.Source %></td>
+                    <td><%= new Date(rumor.Create_Date).toLocaleDateString('th-TH') %></td>
+                    <td><%= rumor.Credibility_score %></td>
+                    <td>
+                        <span class="badge badge-<%= rumor.Status %>">
+                            <%= rumor.Status.toUpperCase() %>
+                        </span>
+                        <% if (rumor.Is_Verified) { %>
+                            <span class="badge badge-verified">VERIFIED</span>
+                        <% } %>
+                    </td>
+                    <td><%= rumor.report_count %></td>
+                    <td>
+                        <a href="/rumors/<%= rumor.Rumour_ID %>" class="btn btn-primary">ดูรายละเอียด</a>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>

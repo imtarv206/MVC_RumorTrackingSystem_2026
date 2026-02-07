@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .btn { padding: 10px 20px; background: #333; color: white; text-decoration: none; border-radius: 3px; display: inline-block; margin: 10px 5px; }
+        .form-group { margin: 15px 0; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 3px; }
+        .btn-success { background: #28a745; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+<h1><%= title %></h1>
+
+<a href="/reports" class="btn">← กลับ</a>
+
+<form action="/reports" method="POST" style="margin-top: 20px;">
+    <div class="form-group">
+        <label for="reporter_id">User ID ของคุณ:</label>
+        <input type="number" id="reporter_id" name="reporter_id" required>
+    </div>
+
+    <div class="form-group">
+        <label for="rumour_id">เลือกข่าวลือที่ต้องการรายงาน:</label>
+        <% if (typeof rumor !== 'undefined' && rumor) { %>
+            <!-- ถ้ามาจากหน้าข่าวลือ จะล็อค rumour_id -->
+            <input type="hidden" name="rumour_id" value="<%= rumor.Rumour_ID %>">
+            <input type="text" value="<%= rumor.Rumour_ID %> - <%= rumor.Rumour_Title %>" readonly style="background: #f0f0f0;">
+        <% } else { %>
+            <!-- ถ้าเข้ามาจากหน้ารายงาน ให้เลือกเอง -->
+            <select id="rumour_id" name="rumour_id" required>
+                <option value="">-- เลือกข่าวลือ --</option>
+                <% if (typeof rumors !== 'undefined' && rumors && rumors.length > 0) { %>
+                    <% rumors.forEach(r => { %>
+                        <option value="<%= r.Rumour_ID %>" <%= r.Is_Verified ? 'disabled' : '' %>>
+                            <%= r.Rumour_ID %> - <%= r.Rumour_Title %>
+                            (รายงาน: <%= r.report_count %><%= r.Is_Verified ? ' - ✓ ตรวจสอบแล้ว' : '' %>)
+                        </option>
+                    <% }) %>
+                <% } else { %>
+                    <option value="" disabled>ไม่มีข่าวลือในระบบ - กรุณา import ข้อมูล seed.sql</option>
+                <% } %>
+            </select>
+            <p style="margin-top: 5px; color: #666; font-size: 14px;">
+                หมายเหตุ: ข่าวลือที่ตรวจสอบแล้วจะไม่สามารถเลือกได้ (disabled)
+            </p>
+        <% } %>
+    </div>
+
+    <div class="form-group">
+        <label for="report_type">ประเภทรายงาน:</label>
+        <select id="report_type" name="report_type" required>
+            <option value="">-- เลือกประเภท --</option>
+            <option value="Distortion">Distortion (บิดเบือน)</option>
+            <option value="Inciting">Inciting (ยุยง)</option>
+            <option value="False Information">False Information (ข้อมูลเท็จ)</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">สร้างรายงาน</button>
+</form>
+
+</body>
+</html>

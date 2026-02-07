@@ -1,0 +1,50 @@
+<h1><%= title %></h1>
+
+<a href="/reports" class="btn">← กลับไปรายงานทั้งหมด</a>
+<a href="/users" class="btn">ดูผู้ใช้ทั้งหมด</a>
+
+<p style="margin: 20px 0;">รายงานของผู้ใช้ ID: <strong><%= userId %></strong></p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Report ID</th>
+            <th>ข่าวลือ</th>
+            <th>สถานะข่าวลือ</th>
+            <th>วันที่รายงาน</th>
+            <th>ประเภทรายงาน</th>
+            <th>การกระทำ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (reports.length === 0) { %>
+            <tr>
+                <td colspan="6" style="text-align: center;">ผู้ใช้นี้ยังไม่มีรายงาน</td>
+            </tr>
+        <% } else { %>
+            <% reports.forEach(report => { %>
+                <tr>
+                    <td><%= report.Report_ID %></td>
+                    <td><%= report.Rumour_Title %></td>
+                    <td>
+                        <span class="badge badge-<%= report.Status %>">
+                            <%= report.Status.toUpperCase() %>
+                        </span>
+                    </td>
+                    <td><%= new Date(report.Report_Date).toLocaleString('th-TH') %></td>
+                    <td><%= report.Report_Type %></td>
+                    <td>
+                        <a href="/rumors/<%= report.Rumour_ID %>" class="btn btn-primary">ดูข่าวลือ</a>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>
+
+<% if (reports.length > 0) { %>
+    <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+        <h3>สรุป</h3>
+        <p><strong>จำนวนรายงานทั้งหมด:</strong> <%= reports.length %> รายงาน</p>
+    </div>
+<% } %>

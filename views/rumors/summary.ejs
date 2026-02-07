@@ -1,0 +1,54 @@
+<h1><%= title %></h1>
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 20px 0;">
+    <div style="background: #007bff; color: white; padding: 20px; border-radius: 5px; text-align: center;">
+        <h2><%= allRumors.length %></h2>
+        <p>ข่าวลือทั้งหมด</p>
+    </div>
+    <div style="background: #dc3545; color: white; padding: 20px; border-radius: 5px; text-align: center;">
+        <h2><%= panicRumors.length %></h2>
+        <p>ข่าวลือสถานะ Panic</p>
+    </div>
+    <div style="background: #28a745; color: white; padding: 20px; border-radius: 5px; text-align: center;">
+        <h2><%= normalRumors.length %></h2>
+        <p>ข่าวลือสถานะ Normal</p>
+    </div>
+</div>
+
+<h2>ข่าวลือทั้งหมด (จัดเรียงตามวันที่)</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>หัวข้อข่าวลือ</th>
+            <th>แหล่งที่มา</th>
+            <th>สถานะ</th>
+            <th>จำนวนรายงาน</th>
+            <th>การกระทำ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (allRumors.length === 0) { %>
+            <tr>
+                <td colspan="6" style="text-align: center;">ไม่มีข่าวลือ</td>
+            </tr>
+        <% } else { %>
+            <% allRumors.forEach(rumor => { %>
+                <tr>
+                    <td><%= rumor.Rumour_ID %></td>
+                    <td><%= rumor.Rumour_Title %></td>
+                    <td><%= rumor.Source %></td>
+                    <td>
+                        <span class="badge badge-<%= rumor.Status %>">
+                            <%= rumor.Status.toUpperCase() %>
+                        </span>
+                    </td>
+                    <td><%= rumor.report_count %></td>
+                    <td>
+                        <a href="/rumors/<%= rumor.Rumour_ID %>" class="btn btn-primary">ดูรายละเอียด</a>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>

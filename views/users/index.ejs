@@ -1,0 +1,38 @@
+<h1><%= title %></h1>
+
+<a href="/users/create" class="btn btn-primary">+ สร้างผู้ใช้ใหม่</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ชื่อ</th>
+            <th>นามสกุล</th>
+            <th>บทบาท</th>
+            <th>การกระทำ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (users.length === 0) { %>
+            <tr>
+                <td colspan="5" style="text-align: center;">ไม่มีผู้ใช้งาน</td>
+            </tr>
+        <% } else { %>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.User_ID %></td>
+                    <td><%= user.FName %></td>
+                    <td><%= user.LName %></td>
+                    <td>
+                        <span class="badge <%= user.Role === 'Checker' ? 'badge-verified' : 'badge-normal' %>">
+                            <%= user.Role %>
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/reports/user/<%= user.User_ID %>" class="btn btn-primary">ดูรายงาน</a>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>

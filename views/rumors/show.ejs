@@ -1,0 +1,77 @@
+<h1><%= title %></h1>
+
+<div style="margin-bottom: 20px;">
+    <a href="/rumors" class="btn">← กลับ</a>
+    <% if (!rumor.Is_Verified) { %>
+        <form action="/rumors/<%= rumor.Rumour_ID %>/verify" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-success">✓ ตรวจสอบแล้ว</button>
+        </form>
+    <% } %>
+    <a href="/reports/create?rumor_id=<%= rumor.Rumour_ID %>" class="btn btn-danger">รายงานข่าวลือนี้</a>
+</div>
+
+<div style="background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+    <h2><%= rumor.Rumour_Title %></h2>
+    <p><strong>ID:</strong> <%= rumor.Rumour_ID %></p>
+    <p><strong>แหล่งที่มา:</strong> <%= rumor.Source %></p>
+    <p><strong>วันที่สร้าง:</strong> <%= new Date(rumor.Create_Date).toLocaleString('th-TH') %></p>
+    <p><strong>คะแนนความน่าเชื่อถือ:</strong> <%= rumor.Credibility_score %></p>
+    <p>
+        <strong>สถานะ:</strong>
+        <span class="badge badge-<%= rumor.Status %>"><%= rumor.Status.toUpperCase() %></span>
+        <% if (rumor.Is_Verified) { %>
+            <span class="badge badge-verified">VERIFIED</span>
+        <% } %>
+    </p>
+    <p><strong>จำนวนรายงาน:</strong> <%= rumor.report_count %> รายงาน</p>
+</div>
+
+<h3>สถิติประเภทรายงาน</h3>
+<table>
+    <thead>
+        <tr>
+            <th>ประเภท</th>
+            <th>จำนวน</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (reportTypes.length === 0) { %>
+            <tr>
+                <td colspan="2" style="text-align: center;">ยังไม่มีรายงาน</td>
+            </tr>
+        <% } else { %>
+            <% reportTypes.forEach(type => { %>
+                <tr>
+                    <td><%= type.Report_Type %></td>
+                    <td><%= type.count %></td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>
+
+<h3>รายงานทั้งหมด</h3>
+<table>
+    <thead>
+        <tr>
+            <th>รายงานโดย</th>
+            <th>วันที่รายงาน</th>
+            <th>ประเภท</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (reports.length === 0) { %>
+            <tr>
+                <td colspan="3" style="text-align: center;">ยังไม่มีรายงาน</td>
+            </tr>
+        <% } else { %>
+            <% reports.forEach(report => { %>
+                <tr>
+                    <td><%= report.FName %> <%= report.LName %> (<%= report.Role %>)</td>
+                    <td><%= new Date(report.Report_Date).toLocaleString('th-TH') %></td>
+                    <td><%= report.Report_Type %></td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>
